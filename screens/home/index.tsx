@@ -33,11 +33,11 @@ function Home(props) {
         <View >
             <View style={styles.menuHome} >
 
-                <CircleButton text="Rutas" color="#D84315" icon="map-signs"/>
+                <CircleButton text="Rutas" color="#D84315" icon="map-signs" slideDelay={100} />
 
-                <CircleButton text="Reportes" color="#F9A825" icon="file-invoice" slideDelay={100} />
+                <CircleButton text="Reportes" color="#F9A825" icon="file-invoice" slideDelay={200} />
 
-                <CircleButton text="Configurar" color="#00695C" icon="cogs" slideDelay={200} />
+                <CircleButton text="Configurar" color="#00695C" icon="cogs" slideDelay={300} />
 
             </View>
             <Separator />

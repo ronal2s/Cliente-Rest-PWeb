@@ -90,22 +90,26 @@ function loginScreen(props) {
     const decreaseHeight = () => {
         Animated.timing(heightAnimated, {
             toValue: screen.height / 2,
-            duration: 1500
+            duration: 1500,
+            useNativeDriver: false
         }).start()
         Animated.timing(borderAnimated, {
             toValue: 80,
-            duration: 340
+            duration: 340,
+            useNativeDriver: false
         }).start()
     }
 
     const increaseHeight = () => {
         Animated.timing(heightAnimated, {
             toValue: screen.height,
-            duration: 1500
+            duration: 1500,
+            useNativeDriver: false
         }).start()
         Animated.timing(borderAnimated, {
             toValue: 0,
-            duration: 1500
+            duration: 1500,
+            useNativeDriver: false
         }).start()
     }
 
@@ -132,11 +136,11 @@ function loginScreen(props) {
 
                     <_Input placeholder="Ej: 1712" label="Usuario" name="user" value={form.user} errorMessage={errors.user} labelStyle={globalStyles.inputLabel}
                         returnKeyType="next" setRef={setReferences} onSubmitEditing={toInputPassword} onChangeText={handleInputs}
-                        icon="account"/>
+                        leftIcon="account"/>
 
                     <_Input label="Contraseña" name="password" value={form.password} errorMessage={errors.password} password labelStyle={globalStyles.inputLabel}
                         returnKeyType="done" setRef={setReferences} onChangeText={handleInputs} onSubmitEditing={login}
-                        icon="lock"/>
+                        leftIcon="lock"/>
 
                     <View style={{ marginVertical: 10 }} />
                     <Button title="Continuar" type="outline" onPress={login} loading={loading} />
