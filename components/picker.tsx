@@ -1,41 +1,58 @@
 import React from "react";
-import { Input, Icon } from "react-native-elements";
-import { ReturnKeyTypeOptions, KeyboardTypeOptions, Picker, Text } from "react-native";
+import { ReturnKeyTypeOptions, KeyboardTypeOptions, Picker, Text, View } from "react-native";
+import globalStyles from "../globalStyles";
 
 type PickerProps = {
-    selectedValue: string,
+    selectedValue: string | number,
     name: string,
-    label: string,
+    label?: string,
+    rounded?: boolean,
     areObjects?: boolean,
     objectLabel?: string,
     onValueChange: (name, value) => void,
-    items: string[] | {}[] | []
+    items: string[] | {}[] | [],
+    width?: number
 }
 
-function _Input(props: PickerProps) {
-    const fixedItems = props.objectLabel? props.items.map((value) => value[props.objectLabel]): props.items;
-    // console.warn(Object.(props.selectedValue))
+function CustomPicker(props: PickerProps) {
+    const fixedItems = props.objectLabel ? props.items.map((value) => value[props.objectLabel]) : props.items;
+    let auxValue = ""
     return (
-        <>
-        <Text style={{
-            fontWeight: "bold",
-            color: "#86929e",
-            fontSize: 16,
-            marginLeft: 10,
-        }} >{props.label}</Text>
-        <Picker
-        selectedValue={props.selectedValue}
-        // style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => props.onValueChange(props.name, itemValue)}
-        >
-            {/* Recordar que si el value no es el string, hay que modificar el componente */}
-            <Picker.Item label={"Seleccionar"} value={-1} />
-            {fixedItems.map((value, index) => {
-                return <Picker.Item label={value} value={value} key={index} />
-            })}
-        </Picker>
-        </>
+        <View style={{ width: props.width ? props.width : "100%", }} >
+            {props.label && <Text style={globalStyles.label} >{props.label}</Text>}
+            <View style={[props.rounded ? roundedStyle : {}, props.rounded ? shadow : {}, { marginBottom: 20, marginHorizontal: 10 }]} >
+                <Picker
+                    selectedValue={props.selectedValue}
+                    onValueChange={(itemValue, itemIndex) => props.onValueChange(props.name, props.areObjects ? props.items[itemIndex-1]: itemValue)}>
+                    <Picker.Item label={"Select"}  value={-1} />
+                    {fixedItems.map((value, index) => {
+                        auxValue = value.toString();
+                        auxValue = auxValue[0].toUpperCase() + auxValue.substr(1);
+                        return <Picker.Item label={auxValue} value={props.areObjects? props.items[index]: auxValue} key={index} />
+                    })}
+                </Picker>
+            </View>
+        </View>
     )
 }
 
-export default _Input;
+const roundedStyle = {
+    backgroundColor: "#ecf0f1",
+    height: 50,
+    borderRadius: 25,
+    borderBottomWidth: 0,
+    paddingLeft: 10
+}
+
+const shadow = {
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+}
+
+export default CustomPicker;

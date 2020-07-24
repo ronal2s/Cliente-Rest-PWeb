@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Emidasred",
-    "slug": "emidasred",
+    "name": "bonihealth",
+    "slug": "bonihealth",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -25,10 +25,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.renysdelacruz.emidasred"
+      "bundleIdentifier": "com.renysdelacruz.bonihealth"
     },
     "android": {
-      "package": "com.renysdelacruz.emidasred",
+      "package": "com.renysdelacruz.bonihealth",
       "versionCode": 1
     }
   }

@@ -3,12 +3,10 @@ import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons"
 import { Card, ListItem } from "react-native-elements";
 //Custom Components
-import Slide from "../../components/slide";
 import CircleButton from "../../components/circleButton";
-import CustomView from "../../components/customView";
 //Utils
 import { GlobalContext } from "../../contexts/globalContexts";
-import { COLORS, Screens } from "../../utils/enums";
+import { Screens } from "../../utils/enums";
 
 //Style
 import styles from "./styles";
@@ -18,10 +16,10 @@ import Separator from "../../components/separator";
 function Home(props) {
     const { navigation } = props;
     const globalContexts = useContext(GlobalContext);
-    
+
     useEffect(() => {
         navigation.setOptions({
-            title: "Administrativo",
+            title: "Home",
             headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate(Screens.Settings)} style={{ marginRight: 10 }} >
                     <Icon name="cog" color="white" size={22} />
@@ -32,19 +30,15 @@ function Home(props) {
     })
 
     return (
-        <CustomView showNotification={globalContexts.user.cashExceed} cash={globalContexts.user.cash} >
+        <View >
             <View style={styles.menuHome} >
-                <Slide>
-                    <CircleButton text="Rutas" color="#D84315" icon="map-signs"
-                        onPress={() => navigation.navigate(Screens.Routes)}
-                    />
-                </Slide>
-                <Slide delay={100}>
-                    <CircleButton text="Reportes" color="#F9A825" icon="file-invoice" />
-                </Slide>
-                <Slide delay={200}>
-                    <CircleButton text="Configurar" color="#00695C" icon="cogs" />
-                </Slide>
+
+                <CircleButton text="Rutas" color="#D84315" icon="map-signs"/>
+
+                <CircleButton text="Reportes" color="#F9A825" icon="file-invoice" slideDelay={100} />
+
+                <CircleButton text="Configurar" color="#00695C" icon="cogs" slideDelay={200} />
+
             </View>
             <Separator />
             <View>
@@ -66,7 +60,7 @@ function Home(props) {
 
             </View>
 
-        </CustomView>
+        </View>
     )
 }
 

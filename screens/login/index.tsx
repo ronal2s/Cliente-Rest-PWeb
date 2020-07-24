@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { View, Dimensions, Animated, Image, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import { View, Dimensions, Animated, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Card, Button, Input } from "react-native-elements";
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -15,6 +15,7 @@ import { InputReferences } from "../../utils/globalInterfaces";
 //Styles
 import viewStyles from "./styles";
 import globalStyles from "../../globalStyles";
+import { AlertContext } from "../../contexts/alertContext";
 //Media
 const Logo = require("../../assets/logo.png");
 const screen = Dimensions.get("screen")
@@ -27,7 +28,7 @@ function loginScreen(props) {
     const [heightAnimated, setHeightAnimated] = useState(new Animated.Value(screen.height))
     const [borderAnimated, setBorderAnimated] = useState(new Animated.Value(0))
 
-    
+
     const [form, setForm] = useState<ILoginForm | null>({ user: "74", password: "1234" });
     // const [form, setForm] = useState<ILoginForm | null>({ user: "0000", password: "4100" });
     const [errors, setErrors] = useState<ILoginErrors | null>({ user: "", password: "" });
@@ -35,6 +36,7 @@ function loginScreen(props) {
 
     const { navigation } = props;
     const globalContext = useContext(GlobalContext);
+    const alertContext = useContext(AlertContext);
 
     const toInputPassword = () => refPassword.input.focus();
 
@@ -68,14 +70,14 @@ function loginScreen(props) {
         if (!error) {
             setLoading(true);
             increaseHeight();
-            setTimeout(() => {                
-                    onLogin(form.user, form.password, (error, json) => {
-                        if (!error) {
-                            globalContext.setContext({user: {logged: true}})                            
-                        }
-                        setLoading(false);
-                    })
-                
+            setTimeout(() => {
+                onLogin(form.user, form.password, (error, json) => {
+                    if (!error) {
+                        globalContext.setContext({ user: { logged: true } })
+                    }
+                    setLoading(false);
+                })
+
             }, 2000);
         }
     }
@@ -111,10 +113,6 @@ function loginScreen(props) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
             <LinearGradient colors={["#0062b8", "#004785"]} style={viewStyles.viewContainer} >
-
-
-                {/* <View style={viewStyles.viewContainer} > */}
-                {/* Recordar convertir este view en un componente */}
                 <Animated.View
                     style={{
                         backgroundColor: COLORS.SECONDARY,
@@ -130,22 +128,18 @@ function loginScreen(props) {
 
                 <Card
                     titleStyle={viewStyles.cardTitle}
-                    containerStyle={[viewStyles.cardContainer, globalStyles.shadow, { borderRadius: 10 }]}
-                >
+                    containerStyle={[viewStyles.cardContainer, globalStyles.shadow, { borderRadius: 10 }]}>
 
-                    {/* <Image source={Logo} style={{ height: 40, width: "100%" }} resizeMode="contain" /> */}
                     <_Input placeholder="Ej: 1712" label="Usuario" name="user" value={form.user} errorMessage={errors.user} labelStyle={globalStyles.inputLabel}
                         returnKeyType="next" setRef={setReferences} onSubmitEditing={toInputPassword} onChangeText={handleInputs}
-                        icon="account"
-                    />
+                        icon="account"/>
 
                     <_Input label="Contraseña" name="password" value={form.password} errorMessage={errors.password} password labelStyle={globalStyles.inputLabel}
                         returnKeyType="done" setRef={setReferences} onChangeText={handleInputs} onSubmitEditing={login}
-                        icon="lock"
-                    />
+                        icon="lock"/>
 
                     <View style={{ marginVertical: 10 }} />
-                    <Button title="Continuar" type="outline" onPress={login} loading={loading} />                    
+                    <Button title="Continuar" type="outline" onPress={login} loading={loading} />
 
 
                 </Card>

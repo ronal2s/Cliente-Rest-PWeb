@@ -1,9 +1,12 @@
 import React from "react";
 import { View } from "react-native";
 
-function Separator() {
+interface iSeparator {
+    size?: number
+}
+function Separator(props: iSeparator) {
     return (
-        <View style={{marginVertical: 10}} />
+        <View style={{ marginVertical: props.size ? props.size : 10 }} />
     )
 }
 

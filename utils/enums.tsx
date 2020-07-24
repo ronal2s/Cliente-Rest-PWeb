@@ -1,47 +1,37 @@
 export enum Screens {
     Login = "Login",
-    InitialConfig = "InitialConfig",
-    Settings = "Ajustes",
-    Home = "Inicio",
-    Routes = "Rutas",
-    Clients = "Clientes",
+    Home = "Home",
+    Settings = "Settings",
 
 };
 export enum SECURE_KEYS {
     INIT = "init",
 }
 
-export enum CODES {
-    SUCCESS = "00"
-}
-
 export enum ALERTS {
-    Validation = "Acción exitosa",
+    Validation = "Action completed successfully",
     Error = "Error",
-    RequestError = "Ha ocurrido un error completando la solicitud"
+    RequestError = "An error has ocurred"
 }
 
 export enum COLORS {
-    PRIMARY = "#0062b8",
+    PRIMARY = "#A6D9D4",
+    PRIMARY_DARK = "#006269",
+    PRIMARY_BUTTON = "#2EC4B6",
+    GREEN_CLEAR = "#A6D9D4",
     SECONDARY = "#a5d549",
     RED = "#e74c3c",
-    GRAY = "#86929e",
+    // GRAY = "#86929e",
+    GRAY = "#333333",
+    GRAY2 = "#888888",
+    GRAY3 = "#EEEEEE",
+    DARK_GRAY = "#666666",
     CASH = "#4daf7c",
-    CLEAR = "rgba(0,0,0,0)"
-}
+    CLEAR = "rgba(0,0,0,0)",
+    BLUE = "#0984e3",
+    WHITE = "white",
+    STAR = "#e67e22",
+    LABEL = "#86929e",
+    INPUT = "#ecf0f1"
 
-export enum CLIENTS {
-    ModalPago = "pago",
-    ModalNoPago = "nopago",
-    ModalSolicitud = "solicitud",
-}
-
-export enum SIZE {
-    SpinnerInfo = 50
-}
-
-export enum Hosts {
-    Prod01 = "Prod01",
-    Intermedio = "Intermedio",
-    Dev01 = "Dev01"
 }

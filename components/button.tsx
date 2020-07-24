@@ -13,7 +13,7 @@ type ButtonProps = {
     iconSize?: number,
 }
 
-function customButtom(props: ButtonProps) {
+function CustomButton(props: ButtonProps) {
     if (props.icon) {
         return (
             <Button title={props.title} raised={props.raised} type={props.type} loading={props.loading} icon={
@@ -36,4 +36,4 @@ function customButtom(props: ButtonProps) {
     )
 }
 
-export default customButtom;
+export default CustomButton;

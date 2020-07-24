@@ -12,6 +12,7 @@ import { GlobalContext, IGlobalContexts } from '../contexts/globalContexts';
 import { Screens } from '../utils/enums';
 import { IAppContainer } from './container.d';
 import Settings from './settings';
+import { IAlert, AlertContext } from '../contexts/alertContext';
 
 
 const Stack = createStackNavigator();
@@ -20,9 +21,11 @@ const headerOptions = ({ navigation }) => ({
 })
 
 function AppContainer(props: IAppContainer) {
-    const { globalContext } = props;
+    const { globalContext, alertContext } = props;
     return (
         <GlobalContext.Provider value={{ ...globalContext.context, setContext: globalContext.setContext }}>
+            <AlertContext.Provider value={{ ...alertContext.context, setAlert: alertContext.setContext }}>
+
             {globalContext.context.user.logged ?
                 <Stack.Navigator screenOptions={headerOptions} >
                     <Stack.Screen name={Screens.Home} component={Home} />
@@ -33,6 +36,7 @@ function AppContainer(props: IAppContainer) {
                     <Stack.Screen name={Screens.Login} component={Login} />
                 </Stack.Navigator>
             }
+            </AlertContext.Provider>
         </GlobalContext.Provider>
     )
 
@@ -40,26 +44,23 @@ function AppContainer(props: IAppContainer) {
 
 function App() {    
     const [context, setContext] = useState<IGlobalContexts>({
-        alert: { open: false, title: "", content: "", success: false },
-        user: { logged: false, typeApp: "Cobrador" }
+        user: { logged: false }
     });
+    const [alertContext, setAlertContext] = useState<IAlert>({ open: false, title: "", content: "", success: false })
     
     const auxSetContext = (object) => {
         //This is a great solution to keep the state ever updated
-        const keys = Object.keys(object);
-        keys.forEach(keyValue => {
-            setContext({ ...context, [keyValue]: object[keyValue] })            
-        })
+        setContext({ ...context, ...object })            
     }
 
     const closeAlert = () => {
-        setContext({ ...context, alert: { ...context.alert, open: false } })
+        setAlertContext({ ...alertContext, open: false });
     }
 
     return (
         <NavigationContainer>
-            <AppContainer globalContext={{ context, setContext: auxSetContext }} />
-            <CustomAlert open={context.alert.open} title={context.alert.title} content={context.alert.content} success={context.alert.success} onClose={closeAlert} />
+            <AppContainer globalContext={{ context, setContext: auxSetContext }} alertContext={{ context: alertContext, setContext: setAlertContext }} />
+            <CustomAlert open={alertContext.open} title={alertContext.title} content={alertContext.content} success={alertContext.success} onClose={closeAlert} />
         </NavigationContainer>
     );
 }
