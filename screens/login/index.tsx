@@ -16,6 +16,7 @@ import { InputReferences } from "../../utils/globalInterfaces";
 import viewStyles from "./styles";
 import globalStyles from "../../globalStyles";
 import { AlertContext } from "../../contexts/alertContext";
+import CustomButton from "../../components/button";
 //Media
 const Logo = require("../../assets/logo.png");
 const screen = Dimensions.get("screen")
@@ -29,7 +30,7 @@ function loginScreen(props) {
     const [borderAnimated, setBorderAnimated] = useState(new Animated.Value(0))
 
 
-    const [form, setForm] = useState<ILoginForm | null>({ user: "74", password: "1234" });
+    const [form, setForm] = useState<ILoginForm | null>({ user: "admin", password: "admin" });
     // const [form, setForm] = useState<ILoginForm | null>({ user: "0000", password: "4100" });
     const [errors, setErrors] = useState<ILoginErrors | null>({ user: "", password: "" });
     const [loading, setLoading] = useState(false);
@@ -72,8 +73,14 @@ function loginScreen(props) {
             increaseHeight();
             setTimeout(() => {
                 onLogin(form.user, form.password, (error, json) => {
+                    console.log("DATOOS:", json.error)
                     if (!error) {
-                        globalContext.setContext({ user: { logged: true } })
+                        if(!json.error) {
+                            globalContext.setContext({ user: { logged: true } })
+                        } else {
+                            alert("Usuario y/o clave incorrectos");
+                            decreaseHeight();
+                        }
                     }
                     setLoading(false);
                 })
@@ -116,10 +123,10 @@ function loginScreen(props) {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-            <LinearGradient colors={["#0062b8", "#004785"]} style={viewStyles.viewContainer} >
+            <LinearGradient colors={["#171717", "#202020"]} style={viewStyles.viewContainer} >
                 <Animated.View
                     style={{
-                        backgroundColor: COLORS.SECONDARY,
+                        backgroundColor: COLORS.PRIMARY,
                         position: "absolute",
                         top: 0,
                         borderBottomLeftRadius: borderAnimated,
@@ -143,7 +150,7 @@ function loginScreen(props) {
                         leftIcon="lock"/>
 
                     <View style={{ marginVertical: 10 }} />
-                    <Button title="Continuar" type="outline" onPress={login} loading={loading} />
+                    <CustomButton title="Continuar" onPress={login} loading={loading} buttonColor={COLORS.PRIMARY_DARK} />
 
 
                 </Card>

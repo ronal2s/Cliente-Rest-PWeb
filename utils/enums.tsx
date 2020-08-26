@@ -2,6 +2,7 @@ export enum Screens {
     Login = "Login",
     Home = "Home",
     Settings = "Settings",
+    NewItem = "Nuevo"
 
 };
 export enum SECURE_KEYS {
@@ -15,8 +16,8 @@ export enum ALERTS {
 }
 
 export enum COLORS {
-    PRIMARY = "#A6D9D4",
-    PRIMARY_DARK = "#006269",
+    PRIMARY = "#bdc3c7",
+    PRIMARY_DARK = "#8a8a8a",
     PRIMARY_BUTTON = "#2EC4B6",
     GREEN_CLEAR = "#A6D9D4",
     SECONDARY = "#a5d549",

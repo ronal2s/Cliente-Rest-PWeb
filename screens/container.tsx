@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 //Screens
 import Home from "../screens/home";
 import Login from "../screens/login";
+import NewItem from "../screens/home/new";
 import CustomAlert from "../components/customAlert";
 //Styles
 import styles from "../globalStyles"
@@ -30,6 +31,7 @@ function AppContainer(props: IAppContainer) {
                 <Stack.Navigator screenOptions={headerOptions} >
                     <Stack.Screen name={Screens.Home} component={Home} />
                     <Stack.Screen name={Screens.Settings} component={Settings} />
+                    <Stack.Screen name={Screens.NewItem} component={NewItem} />
                 </Stack.Navigator>
                 :
                 <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={Screens.Login} >

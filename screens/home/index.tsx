@@ -1,7 +1,10 @@
-import React, { useEffect, useContext } from "react";
-import { Text, View, TouchableOpacity, ScrollView } from "react-native";
+import React, { useEffect, useContext, useState } from "react";
+import { Text, View, TouchableOpacity, ScrollView, ListView, Linking } from "react-native";
 import { FontAwesome5 as Icon } from "@expo/vector-icons"
 import { Card, ListItem } from "react-native-elements";
+import MapView, { Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+
 //Custom Components
 import CircleButton from "../../components/circleButton";
 //Utils
@@ -11,15 +14,31 @@ import { Screens } from "../../utils/enums";
 //Style
 import styles from "./styles";
 import Separator from "../../components/separator";
+import CustomInput from "../../components/input";
+import CustomPicker from "../../components/picker";
+import CustomButton from "../../components/button";
+import CustomFabButton from "../../components/fabButtonItems";
+import { getItems } from "../../utils/api";
 
 
 function Home(props) {
     const { navigation } = props;
+    const [data, setData] = useState([]);
+    const [location, setLocation] = useState(null);
+
     const globalContexts = useContext(GlobalContext);
 
     useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            // globalContexts.setContext(({ actualTabView: "Profile" }));
+            getData();
+        });
+        return unsubscribe;
+    }, [])
+
+    useEffect(() => {
         navigation.setOptions({
-            title: "Home",
+            title: "Formulario",
             headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate(Screens.Settings)} style={{ marginRight: 10 }} >
                     <Icon name="cog" color="white" size={22} />
@@ -27,39 +46,39 @@ function Home(props) {
             )
 
         })
-    })
+
+        getData();
+
+    }, []);
+
+    const getData = () => {
+        getItems((error, json) => {
+            if (!error) {
+                console.log(json)
+                setData([...json.formularios])
+            }
+        })
+    }
+
+    const newForm = () => {
+        navigation.navigate(Screens.NewItem)
+    }
+
 
     return (
-        <View >
-            <View style={styles.menuHome} >
+        <View style={{ flex: 1 }} >
 
-                <CircleButton text="Rutas" color="#D84315" icon="map-signs" slideDelay={100} />
-
-                <CircleButton text="Reportes" color="#F9A825" icon="file-invoice" slideDelay={200} />
-
-                <CircleButton text="Configurar" color="#00695C" icon="cogs" slideDelay={300} />
-
-            </View>
-            <Separator />
             <View>
-                <ScrollView>
-                    <Text style={{
-                        textAlign: "center",
-                        fontWeight: "400",
-                    }} >Notificaciones</Text>
-                    <Card title="Hoy"  >
-                        <ListItem title="Miguel Baez" subtitle="Dirección" chevron leftAvatar={{ title: "M" }} bottomDivider />
-                        <ListItem title="Santos Brito" subtitle="Dirección" chevron leftAvatar={{ title: "S" }} bottomDivider />
-                    </Card>
-                    <Card title="Pendiente a cobrar"  >
-                        <ListItem title="Jordan De La Cruz" subtitle="Dirección" chevron leftAvatar={{ title: "J" }} bottomDivider />
-                        <ListItem title="Carlos Ventura" subtitle="Dirección" chevron leftAvatar={{ title: "C" }} bottomDivider />
-                    </Card>
-                </ScrollView>
-
+                {data.map((item, key) => {
+                    return (
+                        <ListItem leftAvatar={{ title: item.nombre[0] }} title={item.nombre} subtitle={`${item.sector}, ${item.nivelEscolar}`} key={key} bottomDivider chevron 
+                            onPress={() => Linking.openURL(`https://www.google.com/maps/@${item.latitud},${item.longitud},15.5z`)}
+                        />
+                    )
+                })}
 
             </View>
-
+            <CustomFabButton onPress={newForm} />
         </View>
     )
 }

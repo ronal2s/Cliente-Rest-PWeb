@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "bonihealth",
-    "slug": "bonihealth",
-    "privacy": "public",
+    "name": "proyectoweb",
+    "slug": "proyectoweb",
+    "privacy": "private",
     "platforms": [
       "ios",
       "android",
@@ -24,11 +24,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.renysdelacruz.bonihealth"
+      "bundleIdentifier": "com.renysdelacruz.proyectoweb"
     },
     "android": {
-      "package": "com.renysdelacruz.bonihealth",
-      "versionCode": 1
+      "package": "com.renysdelacruz.proyectoweb",
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCYWrV_wQlhOPqb8ZaMuxlgE3iOvq6m0Wg"
+        }
+      }
     }
   }
 }
